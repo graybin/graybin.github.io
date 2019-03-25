@@ -1,0 +1,34 @@
+
+#nav{
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 90px;
+	line-height: 90px;
+	background: #ff0052;
+	background: -webkit-linear-gradient(right, #ff0052, #8e2b88);
+	color: #fff;
+	z-index: 9999;}
+
+.nav-wrap{
+	position: relative;
+	margin: auto;}
+
+.nav-logo{
+	position: relative;
+	display: inline-block;
+	width: 144px;
+	height: 60px;
+	text-align: center;
+	line-height: 60px;
+	font-size: 24px;} 
+
+.nav-info{
+	display: inline-block;
+	list-style: none;}
+
+.nav-info li{
+	display: inline-block;
+	margin-left: 32px;
+	font-size: 16px;}
