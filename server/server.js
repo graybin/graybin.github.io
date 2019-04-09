@@ -37,7 +37,7 @@ var server = http.createServer((req, res) => {
 	})
 
 })
-server.listen(1000, ()=>{
+server.listen(8080, ()=>{
 	console.log('server port 1000')
-})
+}) 
 
