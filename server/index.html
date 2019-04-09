@@ -1,13 +1,13 @@
 <!doctype html>
-<html lang="en">
-<head>
-	<meta charset="utf-8"/><link rel="shortcut icon" href="./logo.svg"/>
-	<meta name="viewport" content="width=device-width,initial-scale=1"/>
-	<title>林镇斌的博客</title>
-	<link href="static/css/index.css" rel="stylesheet">
-	<link href="static/css/nav.css" rel="stylesheet">
-	<link href="static/css/content.css" rel="stylesheet">
-</head>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width,initial-scale=1"/>
+		<title>林镇斌的博客</title>
+		<link href="static/css/index.css" rel="stylesheet">
+		<link href="static/css/nav.css" rel="stylesheet">
+		<link href="static/css/content.css" rel="stylesheet">
+	</head>
 	<body style="background: rgb(245, 245, 245);">
 		<noscript>You need to enable JavaScript to run this app.</noscript>
 		<div id="root">
@@ -28,7 +28,7 @@
 						<section class="list clear">
 						<span class="title-img">
 							<a href="#">
-        						<img width="150" height="83" src="http://localhost:2500/list" class="attachment-thumbnail wp-post-image" alt="111">
+        						<img width="150" height="83" src="" class="attachment-thumbnail wp-post-image" alt="111">
 							</a>
 						</span>
 							<div class="mess">
@@ -83,13 +83,16 @@
 			})
 			window.onhashchange = function() {
 				if(location.hash === '#/content') {
-					$.ajax({url: 'http://localhost:1000/'}).then((r)=>{
-						$('#container').html(marked(r))
+					$.ajax({url: 'http://47.92.215.191/list/index.js'}).then((r)=>{
+						console.log(r)
 					})
 					$('.toggle-bar').remove();
 				}else {
 				}
 			}
+			$(function(){
+				$.ajax()
+			})
 		</script>
 	</body>
 </html>
