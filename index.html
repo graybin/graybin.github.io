@@ -83,8 +83,8 @@
 			})
 			window.onhashchange = function() {
 				if(location.hash === '#/content') {
-					$.ajax({url: 'http://localhost:1000/'}).then((r)=>{
-						$('#container').html(marked(r))
+					$.ajax({url: 'http:47.92.215.191：8080'}).then((r)=>{
+						console.log(r)
 					})
 					$('.toggle-bar').remove();
 				}else {
