@@ -1,13 +1,14 @@
 <!doctype html>
 <html>
-<head>
-	<meta charset="utf-8"/><link rel="shortcut icon" href="./logo.svg"/>
-	<meta name="viewport" content="width=device-width,initial-scale=1"/>
-	<title>林镇斌的博客</title>
-	<link href="static/css/index.css" rel="stylesheet">
-	<link href="static/css/nav.css" rel="stylesheet">
-	<link href="static/css/content.css" rel="stylesheet">
-</head>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width,initial-scale=1"/>
+		<title>林镇斌的博客</title>
+		<link href="static/css/index.css" rel="stylesheet">
+		<link href="static/css/nav.css" rel="stylesheet">
+		<link href="static/css/content.css" rel="stylesheet">
+		<link href="static/css/markdown2.css" rel="stylesheet">
+	</head>
 	<body style="background: rgb(245, 245, 245);">
 		<noscript>You need to enable JavaScript to run this app.</noscript>
 		<div id="root">
@@ -15,34 +16,14 @@
 				<div class='nav-wrap'>
 					<div class="nav-logo">linzhenbin</div>
 					<ul class='nav-info'>
-						<a><li>首页</li></a>	
-						<a><li>读书笔记</li></a>	
-						<a><li>框架</li></a>	
+						<a href="#refresh"><li>首页</li></a>	
 						<a><li>webrtc</li></a>
 					</ul>
 				</div>
 			</div>
 			<div id="main">
 				<div style="overflow: hidden;">
-					<div id="container">
-						<section class="list clear">
-						<span class="title-img">
-							<a href="#">
-        						<img width="150" height="83" src="http://localhost:2500/heee.html" class="attachment-thumbnail wp-post-image" alt="111">
-							</a>
-						</span>
-							<div class="mess">
-								<h2 class="mess-title">
-									<a href="#/content">
-										WebRTC模糊测试
-									</a>
-								</h2>
-								<p>原文标题：All the Truth About the Latest (non)Hype of Fuzzy Testing WebRTC Applications
-									链接:https://bloggeek.me/webrtc-fuzz-testing/ WebRTC模糊测试 在开始之前 一切都开始于Google Project Zero,结…</p>
-							</div>
-						</section>
-						
-					</div>
+					<div id="container"></div>
 					<aside id="sidebar">
 						<div class="sidebar-list">
 							<div class="wp-tag">
@@ -50,10 +31,10 @@
 								<div class="tag">
 									<ul class="menu">
 										<li>javascript</li>
-										<li>vue</li>
-										<li>http</li>
-										<li>react</li>
-										<li>正则</li>
+										<li>css</li>
+										<li>html</li>
+										<li>webpack</li>
+										<li>algorithm</li>
 									</ul>
 								</div>
 							</div>
@@ -62,34 +43,75 @@
 				</div>
 				<div class="toggle-bar">
 					<div class="toggle-bar-wrap">
-						<span >上一页</span>
+						<span>加载更多</span>
+						<!-- <span >上一页</span>
 						<span>1</span>
 						<span>2</span>
 						<span>3</span>
 						<span>4</span>
 						<span>5</span>
 						<span>6</span>
-						<span>下一页</span>
+						<span>下一页</span> -->
 					</div>
 				</div>
 			</div>
+			<div id="content" style="display: none;"></div>
 		</div>
 		<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 		<script type="text/javascript">
-			$('#container').on('click','#container .mess-title',function() {
-				console.log(1)
-				location.hash = '#/content'
+			window.baseUrl = 'http://192.168.43.148'
+			window.page = 1
+			$(function(){
+				$.ajax({url: baseUrl + '/list?page='+window.page}).then((r)=>{
+					if(!r || !r.success) {
+						console.log('network error');
+						return;
+					}
+					var container = $('#container')
+					r.data.forEach((item)=>{
+						container.append('<section class="list clear"><span class="title-img"><a href="#"><img width="150" height="83" src="/static/images/'+item.type +'.jpg"'+' alt="111"></a></span><div class="mess"><h2 class="mess-title"><a href="#/content/'+item.id +'">' + item.title +'</a></h2><p>' + item.des + '</p></div></section>')
+					})
+				})
 			})
 			window.onhashchange = function() {
-				if(location.hash === '#/content') {
-					$.ajax({url:'static/css/nav.css'}).then((r)=>{
-						console.log(r)
+				if(location.hash.slice(0,9) === '#/content'){
+					console.log(location.hash.slice(1))
+					$.ajax({url: baseUrl + location.hash.slice(1) + '.md'}).then((r)=>{
+						$('#main').fadeOut();
+						$('#content').css('display','block').html(marked(r))
 					})
-					$('.toggle-bar').remove();
-				}else {
+				}else{
+					location.href = baseUrl;
 				}
 			}
+			$('.toggle-bar-wrap').click(function(){
+				window.page++;
+				$.ajax({url: baseUrl + '/list?page='+window.page}).then((r)=>{
+					if(!r || !r.success) {
+						console.log('network error');
+						return;
+					}
+					var container = $('#container')
+					r.data.forEach((item)=>{
+						container.append('<section class="list clear"><span class="title-img"><a href="#"><img width="150" height="83" src="/static/images/'+item.type +'.jpg"'+' alt="111"></a></span><div class="mess"><h2 class="mess-title"><a href="#/content/'+item.id +'">' + item.title +'</a></h2><p>' + item.des + '</p></div></section>')
+					})
+				})
+			})
+			$('.menu').on('click', 'li', function(){
+				$('.toggle-bar').css('display', 'none')
+				$.ajax({url: baseUrl + '/list?type=' + $(this).text()}).then((r)=>{
+						if(!r || !r.success) {
+							console.log('network error');
+							return;
+						}
+						var container = $('#container')
+						container.children('section').remove();
+						r.data.forEach((item)=>{
+							container.append('<section class="list clear"><span class="title-img"><a href="#"><img width="150" height="83" src="/static/images/'+item.type +'.jpg"'+' alt="111"></a></span><div class="mess"><h2 class="mess-title"><a href="#/content/'+item.id +'">' + item.title +'</a></h2><p>' + item.des + '</p></div></section>')
+						})
+					})
+			})
 		</script>
 	</body>
 </html>
