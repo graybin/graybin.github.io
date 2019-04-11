@@ -60,7 +60,7 @@
 		<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 		<script type="text/javascript">
-			window.baseUrl = 'http://192.168.43.148'
+			window.baseUrl = 'http://47.92.215.191'
 			window.page = 1
 			$(function(){
 				$.ajax({url: baseUrl + '/list?page='+window.page}).then((r)=>{
@@ -82,7 +82,7 @@
 						$('#content').css('display','block').html(marked(r))
 					})
 				}else{
-					location.href = baseUrl;
+					location.href = 'http://linzhenbin.com';
 				}
 			}
 			$('.toggle-bar-wrap').click(function(){
